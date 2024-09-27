@@ -1,23 +1,18 @@
-<!--users/templates/registration/login.html-->
+<!--users/templates/registration/resgister.html-->
 
 {% extends 'base.html' %} {% block content %}
 <div class="container">
   <div class="card">
-    <h5 class="card-header">Library Login</h5>
+    <h5 class="card-header">Library Registration</h5>
     <div class="card-body text-center">
       <form class="card-text d-grid gap-2 col-6 mx-auto" method="post">
         {% csrf_token %} {{form.as_p }}
         <input class="btn btn-warning mb-3" type="submit" value="Login" />
       </form>
     </div>
-    <div class="card-footer px-2">
-      <div class="gx-4">
-        Forgot Password ?
-        <a href="{% url 'password_reset' %}"> Reset Password </a>
-
-        Not Registered ?
-        <a href="{% url 'register' %}"> Register </a>
-      </div>
+    <div class="card-footer">
+      Already have an account ?
+      <a href="{% url 'login' %}"> Login</a>
     </div>
   </div>
 </div>
