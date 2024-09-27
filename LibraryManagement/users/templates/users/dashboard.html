@@ -1,5 +1,6 @@
 <!-- users/templates/dashboard.html-->
- {% extends 'base.html' %}
- {% block content%}
- Hello, {{user.username|default:'Reader'}}!
- {% endblock %}
+{% extends 'base.html' %} {% block content%}
+<div class="container">
+  <h2>Hello, {{user.username|default:'Reader'}}!</h2>
+</div>
+{% endblock %}
