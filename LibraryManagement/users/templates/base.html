@@ -10,7 +10,7 @@
       <div class="row gy-5">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
           <div class="container-fluid">
-            <a class="navbar-brand" href="/dashboard">Library</a>
+            <a class="navbar-brand" href="{% url 'dashboard' %}">Library</a>
             <button
               class="navbar-toggler"
               type="button"
@@ -24,9 +24,9 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
               <div class="navbar-nav">
-                <a class="nav-link" href="/users/login">Books</a>
-                <a class="nav-link" href="/users/login">Authors</a>
-                <a class="nav-link" href="/users/login">Publishers</a>
+                <a class="nav-link" href="{% url 'dashboard' %}">Books</a>
+                <a class="nav-link" href="{% url 'dashboard' %}">Authors</a>
+                <a class="nav-link" href="{% url 'dashboard' %}">Publishers</a>
               </div>
             </div>
             <div class="navbar-nav px-2">
@@ -42,11 +42,14 @@
                 </button>
               </form>
               {% block nav %} {% if user.is_authenticated %}
-              <a class="nav-link p-2" href="/users/logout">
+              <a class="nav-link p-2" href="{% url 'logout' %}">
                 <button class="btn btn-dark">Logout</button>
               </a>
+              <a class="nav-link p-2" href="{% url 'password_change' %}">
+                <button class="btn btn-outline-info">Change Password</button>
+              </a>
               {% else %}
-              <a class="nav-link p-2" href="/users/login">
+              <a class="nav-link p-2" href="{% url 'login' %}">
                 <button class="btn btn-warning">Login</button>
               </a>
               {% endif %} {% endblock %}
