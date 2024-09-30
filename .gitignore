@@ -3,6 +3,10 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+LibraryManagement/library/migrations/
+
+*/migrations/
+
 # C extensions
 *.so
 
