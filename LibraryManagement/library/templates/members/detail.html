@@ -1,0 +1,8 @@
+{% extends 'base.html' %} {% block content%}
+<div class="container">
+  <h2>Hello, {{user.username|default:'Reader'}}!</h2>
+  <p>Name : {{member.first_name}} {{member.last_name}}</p>
+  <p>Lib ID : {{member.library_id}}</p>
+  <p>Debt : {{member.outstanding_debt}}</p>
+</div>
+{% endblock %}

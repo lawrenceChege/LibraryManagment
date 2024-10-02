@@ -24,4 +24,8 @@ class BookForm(forms.ModelForm):
         fields = ['title', 'author', 'category', 'age_group', 'isbn', 'quantity', 'available', 
                   'publisher', 'publishing_date',]
 
-   
+        
+class MemberForm(forms.ModelForm):
+    class Meta:
+        model = Member
+        fields = ['first_name', 'last_name', 'library_id', 'user', 'outstanding_debt', ]
