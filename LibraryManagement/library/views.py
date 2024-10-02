@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from django.urls import reverse
 
-from .forms import AuthorForm, BookForm
+from .forms import AuthorForm, BookForm, MemberForm
 from .models import Author, Book, Member, Transaction
 from django.db.models import Q
 from django.utils import timezone
