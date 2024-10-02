@@ -1,18 +1,7 @@
 
-
-# urlpatterns = [
-#     path(),
-#     # path('books/<int:book_id>/delete/', views.book_delete, name='book_delete'),
-#     # path('members/', views.member_list, name='member_list'),
-#     # path('members/<int:member_id>/', views.member_detail, name='member_detail'),
-#     # path('issue/<int:book_id>/<int:member_id>/', views.issue_book, name='issue_book'),
-#     # path('return/<int:transaction_id>/', views.return_book, name='return_book'),
-#     # path('search/', views.search_books, name='search_books'),
-# ]
-
 from django.urls import path
 
-from library.views import author_detail, book_detail, create_author, create_book, create_member, delete_author, delete_book, delete_member, list_authors, list_books, list_members, member_detail, update_author, update_book, update_member
+from library.views import author_detail, book_detail, create_author, create_book, create_member, delete_author, delete_book, delete_member, issue_book, list_authors, list_books, list_members, member_detail, return_book, search_books, transactions, update_author, update_book, update_member
 
 
 urlpatterns = [
@@ -31,4 +20,8 @@ urlpatterns = [
     path(r"members/create/", create_member, name='create_member'),
     path(r"members/update/<int:id>", update_member, name='update_member'),    
     path(r"members/delete/<int:id>", delete_member, name='delete_member'),
+    path(r"transactions/", transactions, name='transactions'),
+    path(r'issue/<int:book_id>/', issue_book, name='issue_book'),
+    path(r'return/<int:transaction_id>/', return_book, name='return_book'),
+    path(r'search/', search_books, name='search_books'),
 ]

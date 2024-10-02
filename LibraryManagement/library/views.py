@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from django.urls import reverse
 
-from .forms import AuthorForm, BookForm, MemberForm
+from .forms import AuthorForm, BookForm, IssueForm, MemberForm, ReturnForm
 from .models import Author, Book, Member, Transaction
 from django.db.models import Q
 from django.utils import timezone
@@ -137,38 +137,51 @@ def delete_member(request, id):
         return redirect('list_members')
     return render(request, 'members/confirm_delete.html', {'member': member})
 
+def transactions(request):
+    transactions = Transaction.objects.all()
+    return render(request, 'transactions/list.html', {'transactions': transactions})
 # Issue Book
-def issue_book(request, book_id, member_id):
+def issue_book(request, book_id):
     book = get_object_or_404(Book, id=book_id)
-    member = get_object_or_404(Member, id=member_id)
-    if book.available_quantity > 0 and member.outstanding_debt <= 500:
-        Transaction.objects.create(book=book, member=member, issue_date=timezone.now())
-        book.available_quantity -= 1
-        book.save()
-        return redirect('transaction_list')
+    if book.available == 0:
+        return render(request, "transactions/book_unavailable.html", {'book': book})
+    
+    if request.method == 'GET':
+        return render( request, "transactions/add_form.html", {"form": IssueForm})
+    elif request.method == "POST":
+        form = IssueForm(request.POST)
+        if form.is_valid():        
+            instance = form.save(commit=False)
+            
+            if instance.member.outstanding_debt + instance.rent_fee <= 500:
+                instance.issued_by = request.user
+                instance.save()
+                return redirect('list_transactions')
+            return render(request, "transactions/member_unqualified.html", {"member": instance.member})
+
 
 # Return Book and Charge Rent Fee
 def return_book(request, transaction_id):
-    transaction = get_object_or_404(Transaction, id=transaction_id)
-    if request.method == 'POST':
-        rent_fee = 50  # For example, a fixed fee or based on logic
-        transaction.return_date = timezone.now()
-        transaction.rent_fee = rent_fee
-        transaction.is_returned = True
-        transaction.save() 
+    transaction = get_object_or_404(Transaction, transaction_id=transaction_id)
+    if request.method == 'GET':
+            
+        form = ReturnForm(instance=transaction)
+        return render( 
+            request, "members/edit_form.html", {"form": form})
+    elif request.method == "POST":
+        
+        form = ReturnForm(request.POST, instance=transaction)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.received_by = request.user
+            instance.member.outstanding_debt += instance.rent_fee
+            instance.save()
+            return redirect('transactions', )
 
-        # Adjust available quantity
-        transaction.book.available_quantity += 1
-        transaction.book.save()
-
-        # Add the rent fee to member's outstanding debt
-        transaction.member.outstanding_debt += rent_fee
-        transaction.member.save()
-
-        return redirect('transaction_list')
+        return render(request, "transactions/detail.html", {"transaction": transaction})
 
 # Search Book
 def search_books(request):
     query = request.GET.get('q')
     books = Book.objects.filter(Q(title__icontains=query) | Q(author__icontains=query))
-    return render(request, 'library/book_list.html', {'books': books})
+    return render(request, 'books/book_list.html', {'books': books})

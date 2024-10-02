@@ -1,7 +1,7 @@
 from datetime import timezone
 from django import forms
 
-from .models import AgeGroup, Book, Category, Member, Publisher, Author
+from .models import AgeGroup, Book, Category, Member, Publisher, Author, Transaction
 from django.contrib.auth.models import User
 
 
@@ -29,3 +29,15 @@ class MemberForm(forms.ModelForm):
     class Meta:
         model = Member
         fields = ['first_name', 'last_name', 'library_id', 'user', 'outstanding_debt', ]
+
+
+class IssueForm(forms.ModelForm):
+    class Meta:
+        model = Transaction
+        fields = ['transaction_id', 'book', 'member', 'return_date', 'rent_fee', 'issued_by', 'issue_date', 'received_by', 'date_returned', 'is_returned', ]
+
+
+class ReturnForm(forms.ModelForm):
+    class Meta:
+        model = Transaction
+        fields = ['transaction_id', 'book', 'member', 'rent_fee', 'received_by', 'date_returned', 'is_returned', ]

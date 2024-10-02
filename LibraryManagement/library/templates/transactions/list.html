@@ -1,0 +1,57 @@
+{% extends 'base.html' %} {% block content%}
+<div class="container">
+  <h2>Hello, {{user.username|default:'Reader'}}!</h2>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Transaction ID</th>
+        <th scope="col">Book</th>
+        <th scope="col">Member</th>
+        <th scope="col">Return Date</th>
+        <th scope="col">Rent Fee</th>
+        <th scope="col">Date Returned</th>
+        <th scope="col">is returned</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for transaction in transactions %}
+      <tr>
+        <th scope="row">{{transaction.transaction_id}}</th>
+        <td>{{transaction.book}}</td>
+        <td>{{transaction.member}}</td>
+        <td>{{transaction.return_date}}</td>
+        <td>{{transaction.rent_fee}}</td>
+        <td>{{transaction.date_returned}}</td>
+        <td>{{transaction.is_returned}}</td>
+        <td>
+          <div class="col-1 col-sm-1 col-md-1 p-3">
+            <form
+              action="{% url 'return_book' transaction.transaction_id %} "
+              method="POST"
+            >
+              {% csrf_token %}
+              <input
+                type="hidden"
+                value="{{ transaction.transaction_id }}"
+                name="transaction_id"
+              />
+              <button
+                class="btn btn-warning"
+                data-bs-toggle="tooltip"
+                data-bs-placement="top"
+                title="Return Book"
+              >
+                <a href="{% url 'return_book' transaction.transaction_id %}">
+                  <i class="fa-solid fa-book btn-warning"></i>
+                </a>
+              </button>
+            </form>
+          </div>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
