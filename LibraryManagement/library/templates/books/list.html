@@ -1,0 +1,58 @@
+{% extends 'base.html' %} {% block content%}
+<div class="container">
+  <h2>Hello, {{user.username|default:'Reader'}}!</h2>
+  <a class="btn btn-info" href="{% url 'create_book'  %}"> Add book</a>
+
+  {% for book in books %}
+  <div class="row">
+    <div class="alert alert-light col-sm-6 col-md-6 col-6 p-3" role="alert">
+      <a class="alert-light" href="{% url 'book_detail' book.id %}">
+        {{book.isbn}} {{book.title}} by {{book.author}}
+      </a>
+      <span class="badge bg-info text-dark">{{book.available}}</span>
+    </div>
+    <div class="col-1 col-sm-1 col-md-1 p-3">
+      <button
+        class="btn btn-info"
+        data-bs-toggle="tooltip"
+        data-bs-placement="top"
+        title="Issue Book"
+      >
+        <a href="{% url 'update_book' book.id %}">
+          <i class="fa-solid fa-book btn-info"></i>
+        </a>
+      </button>
+    </div>
+    <div class="col-1 col-sm-1 col-md-1 p-3">
+      <button
+        class="btn btn-success"
+        data-bs-toggle="tooltip"
+        data-bs-placement="top"
+        title="Update Book Details"
+      >
+        <a href="{% url 'update_book' book.id %}">
+          <i class="fa-solid fa-pen-to-square btn-success"></i>
+        </a>
+      </button>
+    </div>
+    <div class="col-1 col-sm-1 col-md-1 p-3">
+      <form action="{% url 'delete_book' book.id %} " method="POST">
+        {% csrf_token %}
+        <input type="hidden" value="{{ book.id }}" name="id" />
+        <button
+          class="btn btn-danger"
+          data-bs-toggle="tooltip"
+          data-bs-placement="top"
+          title="Delete Book"
+        >
+          <a href="{% url 'delete_book' book.id %}">
+            <i class="fa-solid fa-trash btn-danger"></i>
+          </a>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  {% endfor %}
+</div>
+{% endblock %}

@@ -1,18 +1,18 @@
-<!--users/templates/registration/resgister.html-->
-
 {% extends 'base.html' %} {% block content %}
 <div class="container">
   <div class="card">
-    <h5 class="card-header">Library Registration</h5>
+    <h5 class="card-header">Add Book</h5>
     <div class="card-body">
       <form class="card-text d-grid gap-2 col-6 mx-auto" method="post">
         {% csrf_token %} {{form.as_p }}
-        <input class="btn btn-warning mb-3" type="submit" value="Login" />
+        <input class="btn btn-info mb-3" type="submit" value="Add" />
       </form>
     </div>
-    <div class="card-footer">
-      Already have an account ?
-      <a href="{% url 'login' %}"> Login</a>
+    <div class="card-footer px-2">
+      <div class="gx-4">
+        Issue book
+        <a href="{% url 'list_books' %}"> </a>
+      </div>
     </div>
   </div>
 </div>

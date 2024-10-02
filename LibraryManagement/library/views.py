@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from django.urls import reverse
 
-from .forms import AuthorForm
+from .forms import AuthorForm, BookForm
 from .models import Author, Book, Member, Transaction
 from django.db.models import Q
 from django.utils import timezone
@@ -46,7 +46,96 @@ def delete_author(request, id):
         return redirect('list_authors')
     return render(request, 'authors/confirm_delete.html', {'author': author})
         
+# book CRUD
 
+def list_books(request):
+    books = Book.objects.all()
+    return render(request, 'books/list.html', {'books': books})
+
+def book_detail(request, id):
+    book = get_object_or_404(Book, id=id)
+    return render(request, 'books/detail.html', {'book': book})
+
+def create_book(request):
+    if request.method == 'GET':
+        return render( request, "books/add_form.html", {"form": BookForm})
+    elif request.method == "POST":
+        form = BookForm(request.POST)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.created_by = request.user
+            instance.save()
+            return redirect('list_books')
+
+def update_book(request, id):
+    
+    book = get_object_or_404(Book, id=id)
+    if request.method == 'GET':
+            
+        form = BookForm(instance=book)
+        return render( 
+            request, "books/edit_form.html", {"form": form})
+    elif request.method == "POST":
+        
+        form = BookForm(request.POST, instance=book)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.modified_by = request.user
+            instance.save()
+            return redirect('book_detail', book.id )
+
+def delete_book(request, id):
+    book = get_object_or_404(Book, id=id)
+    if request.method == 'POST':
+        book.delete()
+        return redirect('list_books')
+    return render(request, 'books/confirm_delete.html', {'book': book})
+
+
+# member CRUD
+
+def list_members(request):
+    members = Member.objects.all()
+    return render(request, 'members/list.html', {'members': members})
+
+def member_detail(request, id):
+    member = get_object_or_404(Member, id=id)
+    return render(request, 'members/detail.html', {'member': member})
+
+def create_member(request):
+    if request.method == 'GET':
+        return render( request, "members/add_form.html", {"form": MemberForm})
+    elif request.method == "POST":
+        form = MemberForm(request.POST)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.created_by = request.user
+            instance.save()
+            return redirect('list_members')
+
+def update_member(request, id):
+    
+    member = get_object_or_404(Member, id=id)
+    if request.method == 'GET':
+            
+        form = MemberForm(instance=member)
+        return render( 
+            request, "members/edit_form.html", {"form": form})
+    elif request.method == "POST":
+        
+        form = MemberForm(request.POST, instance=member)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.modified_by = request.user
+            instance.save()
+            return redirect('member_detail', member.id )
+
+def delete_member(request, id):
+    member = get_object_or_404(Member, id=id)
+    if request.method == 'POST':
+        member.delete()
+        return redirect('list_members')
+    return render(request, 'members/confirm_delete.html', {'member': member})
 
 # Issue Book
 def issue_book(request, book_id, member_id):

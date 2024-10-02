@@ -4,7 +4,7 @@
 <div class="container">
   <div class="card">
     <h5 class="card-header">Library Login</h5>
-    <div class="card-body text-center">
+    <div class="card-body">
       <form class="card-text d-grid gap-2 col-6 mx-auto" method="post">
         {% csrf_token %} {{form.as_p }}
         <input class="btn btn-warning mb-3" type="submit" value="Login" />

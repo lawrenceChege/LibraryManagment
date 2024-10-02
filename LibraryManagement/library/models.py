@@ -68,7 +68,7 @@ class Member(models.Model):
         return f'{self.first_name} {self.last_name}'
     
 class Transaction(models.Model):
-    transaction_id = models.PositiveIntegerField(auto_created=True)
+    transaction_id = models.AutoField(primary_key=True)
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     member = models.ForeignKey(Member, on_delete=models.CASCADE) 
     return_date = models.DateTimeField(blank=True, null=True)

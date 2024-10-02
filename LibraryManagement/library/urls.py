@@ -12,7 +12,7 @@
 
 from django.urls import path
 
-from library.views import author_detail, create_author, delete_author, list_authors, update_author
+from library.views import author_detail, book_detail, create_author, create_book, delete_author, delete_book, list_authors, list_books, update_author, update_book
 
 
 urlpatterns = [
@@ -21,4 +21,9 @@ urlpatterns = [
     path(r"authors/create/", create_author, name='create_author'),
     path(r"authors/update/<int:id>", update_author, name='update_author'),    
     path(r"authors/delete/<int:id>", delete_author, name='delete_author'),
+    path(r"books/", list_books, name='list_books'),
+    path(r"books/<int:id>/", book_detail, name='book_detail'),
+    path(r"books/create/", create_book, name='create_book'),
+    path(r"books/update/<int:id>", update_book, name='update_book'),    
+    path(r"books/delete/<int:id>", delete_book, name='delete_book'),
 ]

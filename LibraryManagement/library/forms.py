@@ -1,5 +1,8 @@
+from datetime import timezone
 from django import forms
-from .models import Author
+
+from .models import AgeGroup, Book, Category, Member, Publisher, Author
+from django.contrib.auth.models import User
 
 
 class AuthorForm(forms.ModelForm):
@@ -15,6 +18,10 @@ class AuthorForm(forms.ModelForm):
             "full_name",
         ]
 
-class NameForm(forms.Form):
-    your_name = forms.CharField(label="Your name", max_length=100)
-    your_title = forms.CharField(label="Your title", max_length=25)
+class BookForm(forms.ModelForm):
+    class Meta:
+        model = Book
+        fields = ['title', 'author', 'category', 'age_group', 'isbn', 'quantity', 'available', 
+                  'publisher', 'publishing_date',]
+
+   
