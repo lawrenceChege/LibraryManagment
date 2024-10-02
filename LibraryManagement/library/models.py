@@ -51,7 +51,7 @@ class Book(models.Model):
     publishing_date = models.DateTimeField(blank=True, null=True)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name="creator")
     created_on = models.DateTimeField(default=timezone.now)
-    modified_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name="modifier")
+    modified_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name="modifier", blank=True, null=True)
     modified_on = models.DateTimeField(default=timezone.now)
 
     def __str__(self) -> str:

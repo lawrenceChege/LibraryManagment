@@ -20,8 +20,8 @@ urlpatterns = [
     path(r"members/create/", create_member, name='create_member'),
     path(r"members/update/<int:id>", update_member, name='update_member'),    
     path(r"members/delete/<int:id>", delete_member, name='delete_member'),
-    path(r"transactions/", transactions, name='transactions'),
-    path(r'issue/<int:book_id>/', issue_book, name='issue_book'),
+    path(r"dashboard/", transactions, name='dashboard'),
+    path(r'issue/', issue_book, name='issue_book'),
     path(r'return/<int:transaction_id>/', return_book, name='return_book'),
     path(r'search/', search_books, name='search_books'),
 ]

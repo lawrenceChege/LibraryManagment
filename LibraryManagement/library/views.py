@@ -141,13 +141,10 @@ def transactions(request):
     transactions = Transaction.objects.all()
     return render(request, 'transactions/list.html', {'transactions': transactions})
 # Issue Book
-def issue_book(request, book_id):
-    book = get_object_or_404(Book, id=book_id)
-    if book.available == 0:
-        return render(request, "transactions/book_unavailable.html", {'book': book})
+def issue_book(request):
     
     if request.method == 'GET':
-        return render( request, "transactions/add_form.html", {"form": IssueForm})
+        return render( request, "transactions/issue_form.html", {"form": IssueForm})
     elif request.method == "POST":
         form = IssueForm(request.POST)
         if form.is_valid():        
@@ -155,26 +152,29 @@ def issue_book(request, book_id):
             
             if instance.member.outstanding_debt + instance.rent_fee <= 500:
                 instance.issued_by = request.user
+                instance.issue_date = timezone.now()
                 instance.save()
-                return redirect('list_transactions')
+                return redirect('transactions')
             return render(request, "transactions/member_unqualified.html", {"member": instance.member})
 
 
 # Return Book and Charge Rent Fee
 def return_book(request, transaction_id):
     transaction = get_object_or_404(Transaction, transaction_id=transaction_id)
-    if request.method == 'GET':
-            
+    if request.method == 'GET':            
         form = ReturnForm(instance=transaction)
         return render( 
-            request, "members/edit_form.html", {"form": form})
-    elif request.method == "POST":
-        
+            request, "transactions/return_form.html", {"form": form})
+    elif request.method == "POST":        
         form = ReturnForm(request.POST, instance=transaction)
         if form.is_valid():
+            print("form is valid")
             instance = form.save(commit=False)
             instance.received_by = request.user
             instance.member.outstanding_debt += instance.rent_fee
+            instance.is_returned = True
+            instance.date_returned = timezone.now()
+            print(instance)
             instance.save()
             return redirect('transactions', )
 

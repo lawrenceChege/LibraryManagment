@@ -34,10 +34,10 @@ class MemberForm(forms.ModelForm):
 class IssueForm(forms.ModelForm):
     class Meta:
         model = Transaction
-        fields = ['transaction_id', 'book', 'member', 'return_date', 'rent_fee', 'issued_by', 'issue_date', 'received_by', 'date_returned', 'is_returned', ]
+        fields = ['transaction_id', 'book', 'member', 'return_date', 'rent_fee', ]
 
 
 class ReturnForm(forms.ModelForm):
     class Meta:
         model = Transaction
-        fields = ['transaction_id', 'book', 'member', 'rent_fee', 'received_by', 'date_returned', 'is_returned', ]
+        fields = ['transaction_id', 'book', 'member', 'rent_fee', ]
