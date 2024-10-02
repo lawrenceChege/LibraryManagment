@@ -7,6 +7,12 @@ LibraryManagement/library/migrations/
 
 */migrations/
 
+fontawesomefree/*
+fontawesomefree/
+
+admin/
+admin/*
+
 # C extensions
 *.so
 

@@ -1,0 +1,35 @@
+{% extends 'base.html' %} {% block content%}
+<div class="container">
+  <h2>Hello, {{user.username|default:'Reader'}}!</h2>
+  <a class="btn btn-info" href="{% url 'create_author'  %}"> Add Author</a>
+
+  {% for author in authors %}
+  <div class="row">
+    <div class="alert alert-light col-sm-6 col-md-6 col-6 p-3" role="alert">
+      <a class="alert-light" href="{% url 'author_detail' author.id %}">
+        {{author.title}} {{author.full_name}}
+      </a>
+    </div>
+    <div class="col-1 col-sm-1 col-md-1 p-3">
+      <button class="btn btn-success">
+        <a href="{% url 'update_author' author.id %}">
+          <i class="fa-solid fa-pen-to-square btn-success"></i>
+        </a>
+      </button>
+    </div>
+    <div class="col-1 col-sm-1 col-md-1 p-3">
+      <form action="{% url 'delete_author' author.id %} " method="POST">
+        {% csrf_token %}
+        <input type="hidden" value="{{ author.id }}" name="id" />
+        <button class="btn btn-danger">
+          <a href="{% url 'delete_author' author.id %}">
+            <i class="fa-solid fa-trash btn-danger"></i>
+          </a>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,87 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{% block title %} Library{% endblock %}</title>
+    {% load bootstrap5 %} {% bootstrap_css %} {% bootstrap_javascript %}
+    <link
+      href="{% static 'fontawesomefree/css/fontawesome.css' %}"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="{% static 'fontawesomefree/css/brands.css' %}"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="{% static 'fontawesomefree/css/solid.css' %}"
+      rel="stylesheet"
+      type="text/css"
+    />
+  </head>
+
+  <body>
+    <div class="container overflow-hidden">
+      <div class="row gy-5">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+          <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'dashboard' %}">Library</a>
+            <button
+              class="navbar-toggler"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbarNavAltMarkup"
+              aria-controls="navbarNavAltMarkup"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+            >
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+              <div class="navbar-nav">
+                <a class="nav-link" href="{% url 'list_authors' %}">Authors</a>
+                <a class="nav-link" href="{% url 'list_authors' %}">Books</a>
+                <a class="nav-link" href="{% url 'list_authors' %}">Members</a>
+                <a class="nav-link" href="{% url 'list_authors' %}"
+                  >Categories</a
+                >
+                -->
+
+                <a class="nav-link" href="{% url 'list_authors' %}">Issue</a>
+                <a class="nav-link" href="{% url 'list_authors' %}">Return</a>
+              </div>
+            </div>
+            <div class="navbar-nav px-2">
+              <form class="d-flex p-2">
+                <input
+                  class="form-control me-2"
+                  type="search"
+                  placeholder="Search"
+                  aria-label="Search"
+                />
+                <button class="btn btn-outline-success" type="submit">
+                  Search
+                </button>
+              </form>
+              {% block nav %} {% if user.is_authenticated %}
+              <a class="nav-link p-2" href="{% url 'logout' %}">
+                <button class="btn btn-dark">Logout</button>
+              </a>
+              <a class="nav-link p-2" href="{% url 'password_change' %}">
+                <button class="btn btn-outline-info">Change Password</button>
+              </a>
+              {% else %}
+              <a class="nav-link p-2" href="{% url 'login' %}">
+                <button class="btn btn-warning">Login</button>
+              </a>
+              {% endif %} {% endblock %}
+            </div>
+          </div>
+        </nav>
+
+        {% block content %} {% endblock %}
+      </div>
+    </div>
+  </body>
+</html>

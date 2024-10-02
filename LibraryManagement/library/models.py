@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 
 
 class Author(models.Model):
+    id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=25)
     full_name = models.CharField(max_length=100)
 
@@ -11,6 +12,8 @@ class Author(models.Model):
         return f'{self.full_name}'
     
 class Publisher(models.Model):
+    
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
     website = models.URLField(blank=True, null=True)
     address = models.CharField(max_length=250, blank=True, null=True)
@@ -19,12 +22,16 @@ class Publisher(models.Model):
         return f'{self.name}'
 
 class Category(models.Model):
+    
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
 
     def __str__(self) -> str:
         return f'{self.name}'
     
 class AgeGroup(models.Model):
+    
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
     min_age = models.IntegerField()
     max_age = models.IntegerField()

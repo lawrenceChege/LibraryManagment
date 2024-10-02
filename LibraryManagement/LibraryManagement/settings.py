@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'library',
     'users',
     'bootstrap5',
+    'fontawesomefree',
 ]
 
 MIDDLEWARE = [
@@ -132,3 +133,5 @@ LOGOUT_REDIRECT_URL = "dashboard"
 EMAIL_HOST = 'localhost'
 
 EMAIL_PORT = 1085
+
+STATIC_ROOT = "C:/Users/coder/Desktop/code/tests/LibraryManagment/LibraryManagement/"
